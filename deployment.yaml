@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo1
+  labels:
+    app: demo1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo1
+  template:
+    metadata:
+      labels:
+        app: demo1
+    spec:
+      containers:
+        - name: demo1
+          image: 802994901796.dkr.ecr.ap-south-1.amazonaws.com/shivarajecr/demo1:1.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
