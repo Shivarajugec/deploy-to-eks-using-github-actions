@@ -1,0 +1,112 @@
+            - name: Deploy EKS to AWS
+  # You may pin to the exact commit or the version.
+  # uses: bitovi/github-actions-deploy-eks@4d357bb108a79cdde3bba9c57624847406daaa34
+  uses: bitovi/github-actions-deploy-eks@v0.1.0
+  with:
+    # Specifies if this action should checkout the code
+    checkout: # optional, default is true
+    # Will run only the generation phase of BitOps, where the Terraform and Ansible code is built.
+    bitops_code_only: # optional
+    # Store BitOps code as a GitHub artifact
+    bitops_code_store: # optional
+    # Set to "true" to Destroy the stack through Terraform.
+    tf_stack_destroy: # optional
+    # Change this to be anything you want to. Carefull to be consistent here. A missing file could trigger recreation, or stepping over destruction of non-defined objects.
+    tf_state_file_name: # optional
+    # Append a string to the tf-state-file. Setting this to `unique` will generate `tf-state-aws-unique`. Can co-exist with the tf_state_file_name variable. 
+    tf_state_file_name_append: # optional
+    # AWS S3 bucket to use for Terraform state. Defaults to `${org}-${repo}-{branch}-tf-state`
+    tf_state_bucket: # optional
+    # Force purge and deletion of S3 bucket defined. Any file contained there will be destroyed. `tf_stack_destroy` must also be `true`
+    tf_state_bucket_destroy: # optional
+    # AWS access key ID
+    aws_access_key_id: # optional
+    # AWS secret access key
+    aws_secret_access_key: # optional
+    # AWS session token
+    aws_session_token: # optional
+    # AWS default region
+    aws_default_region: # optional, default is us-east-1
+    # Set to override the AWS resource identifier for the deployment.  Defaults to `${org}-{repo}-{branch}`.  Use with destroy to destroy specific resources.
+    aws_resource_identifier: # optional
+    # A JSON object of additional tags that will be included on created resources. Example: `{"key1": "value1", "key2": "value2"}`
+    aws_additional_tags: # optional
+    # Define if an EKS cluster should be created
+    aws_eks_create: # optional, default is true
+    # SG for ${var.aws_resource_identifier} - ${var.aws_eks_environment} - EKS Master
+    aws_eks_security_group_name_cluster: # optional
+    # SG for ${var.aws_resource_identifier} - ${var.aws_eks_environment} - EKS Worker
+    aws_eks_security_group_name_node: # optional
+    # Specify the eks environment name. Defaults to env
+    aws_eks_environment: # optional
+    # Enter your public IP or CIDR to add it to the allowed master security groups port 443.
+    aws_eks_management_cidr: # optional
+    # Allow incoming traffic from this port. Accepts comma separated values, matching 1 to 1 with aws_eks_allowed_ports_cidr.
+    aws_eks_allowed_ports: # optional
+    # Allow incoming traffic from this CIDR block. Accepts comma separated values, matching 1 to 1 with aws_eks_allowed_ports. If none defined, will allow all incoming traffic.
+    aws_eks_allowed_ports_cidr: # optional
+    # EKS Cluster name. Defaults to eks-cluster
+    aws_eks_cluster_name: # optional
+    # Role ARN to grant cluster-admin permissions
+    aws_eks_cluster_admin_role_arn: # optional
+    # EKS Log types, comma separated list. Defaults to api,audit,authenticator
+    aws_eks_cluster_log_types: # optional
+    # Days to store logs. Defaults to 7.
+    aws_eks_cluster_log_retention_days: # optional
+    # Skip deletion of cluster logs if set to true
+    aws_eks_cluster_log_skip_destroy: # optional
+    # Specify the k8s cluster version
+    aws_eks_cluster_version: # optional
+    # enter the aws instance type
+    aws_eks_instance_type: # optional
+    # AWS AMI ID. Will default to the latest Amazon EKS Node image for the cluster version.
+    aws_eks_instance_ami_id: # optional
+    # Relative path in the repo for a user provided script to be executed with Terraform EKS Node creation.
+    aws_eks_instance_user_data_file: # optional
+    # Enter the existing ec2 key pair for worker nodes. If none, one will be created.
+    aws_eks_ec2_key_pair: # optional
+    # If true, will store the newly created keys in Secret Manager
+    aws_eks_store_keypair_sm: # optional
+    # Enter the desired capacity for the worker nodes
+    aws_eks_desired_capacity: # optional
+    # Enter the max_size for the worker nodes
+    aws_eks_max_size: # optional
+    # Enter the min_size for the worker nodes
+    aws_eks_min_size: # optional
+    # A JSON object of additional tags that will be included on created resources. Example: `{"key1": "value1", "key2": "value2"}`
+    aws_eks_additional_tags: # optional
+    # Specifies if this action should checkout the code for this deployment
+    prometheus_enable: # optional
+    # Specifies if this action should checkout the code for this deployment
+    grafana_enable: # optional
+    # Specifies if this action should checkout the code for this deployment
+    loki_enable: # optional
+    # Specifies if this action should checkout the code for this deployment
+    nginx_enable: # optional
+    # Relative path to the folder from project containing Helm charts to be installed. Could be uncompressed or compressed (.tgz) files.
+    input_helm_charts: # optional
+    # Define if a VPC should be created
+    aws_vpc_create: # optional, default is true
+    # Set a specific name for the VPC
+    aws_vpc_name: # optional
+    # Define Base CIDR block which is divided into subnet CIDR blocks. Defaults to 10.0.0.0/16.
+    aws_vpc_cidr_block: # optional, default is 10.0.0.0/16
+    # Comma separated list of public subnets. Defaults to 10.10.110.0/24
+    aws_vpc_public_subnets: # optional, default is 10.0.101.0/24,10.0.102.0/24
+    # Comma separated list of private subnets. If none, none will be created.
+    aws_vpc_private_subnets: # optional, default is 10.0.1.0/24,10.0.2.0/24
+    # Comma separated list of availability zones. Defaults to `aws_default_region.
+    aws_vpc_availability_zones: # optional, default is us-east-1a,us-east-1b
+    # AWS VPC ID. Accepts `vpc-###` values.
+    aws_vpc_id: # optional
+    # Specify a Subnet to be used with the instance. If none provided, will pick one.
+    aws_vpc_subnet_id: # optional
+    # Enables NAT gateway
+    aws_vpc_enable_nat_gateway: # optional, default is true
+    # Creates only one NAT gateway
+    aws_vpc_single_nat_gateway: # optional, default is true
+    # Comma separated list of IP IDS to reuse in the NAT gateways
+    aws_vpc_external_nat_ip_ids: # optional
+    # A JSON object of additional tags that will be included on created resources. Example: `{"key1": "value1", "key2": "value2"}`
+    aws_vpc_additional_tags: # optional
+          
